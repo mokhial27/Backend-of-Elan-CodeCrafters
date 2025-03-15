@@ -2,9 +2,9 @@ const express = require('express');
 const authMiddleware = require('./middlewares/authMiddleware');
 const authRoutes = require('./Routes/authRoutes');
 require('dotenv').config({ path: './config/config.env' });
-const testDatabaseConnection = require('./Util/testDatabase'); // Import test connection function
-const seedDatabase = require('./seeders/seedDatabase'); // Import the renamed seeding function
-const productRoutes = require('./Routes/productRoutes'); // Import product routes
+const testDatabaseConnection = require('./Util/testDatabase'); 
+const seedDatabase = require('./seeders/seedDatabase'); 
+const productRoutes = require('./Routes/productRoutes'); 
 
 
 const app = express();
@@ -45,7 +45,7 @@ app.listen(PORT, () => {
 // Seed the database when the server starts
 (async () => {
   try {
-    await seedDatabase(); // Call the renamed seeding function
+    await seedDatabase(); 
     console.log("✅ Database seeding completed!");
   } catch (error) {
     console.error("❌ Error seeding database:", error);
