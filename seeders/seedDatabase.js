@@ -2,9 +2,9 @@ const sequelize = require('../config/db');
 const { Product, Size, ProductSize } = require('../models/index');
 const fs = require('fs');
 
-const seedDatabase = async () => { // Renamed from seedProducts to seedDatabase
+const seedDatabase = async () => { 
     try {
-        // Create sizes (if they don't already exist)
+      
         const sizes = await Size.bulkCreate([
             { size: 'XS' },
             { size: 'S' },
@@ -40,4 +40,4 @@ const seedDatabase = async () => { // Renamed from seedProducts to seedDatabase
     }
 };
 
-module.exports = seedDatabase; // Export the renamed function
+module.exports = seedDatabase;
