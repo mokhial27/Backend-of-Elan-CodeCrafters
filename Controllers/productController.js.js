@@ -52,9 +52,9 @@ const getProductsByCategory = async (req, res) => {
             include: [
                 {
                     model: Size,
-                    as: 'sizes', // Use the alias 'sizes' defined in the association
-                    attributes: ['size'], // Include only the 'size' attribute
-                    through: { attributes: [] }, // Exclude the join table (ProductSize) attributes
+                    as: 'sizes', 
+                    attributes: ['size'], 
+                    through: { attributes: [] },
                 },
             ],
         });
