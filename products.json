@@ -1,0 +1,122 @@
+[
+    {
+        "name": "Men's T-Shirt",
+        "description": "A comfortable T-shirt for men.",
+        "price": 20.00,
+        "stock": 100,
+        "category": "Men",
+        "type": "Top Wear",
+        "subType": "T-Shirt",
+        "image": "/uploads/products/mens-tshirt.jpg",
+        "sizes": [
+            "XS",
+            "S",
+            "M"
+        ]
+    },
+    {
+        "name": "Men's Jeans",
+        "description": "Stylish jeans for men.",
+        "price": 40.00,
+        "stock": 50,
+        "category": "Men",
+        "type": "Bottom Wear",
+        "subType": "Jeans",
+        "image": "/uploads/products/mens-jeans.jpg",
+        "sizes": [
+            "XS",
+            "S",
+            "M"
+        ]
+    },
+    {
+        "name": "Women's Dress",
+        "description": "A stylish dress for women.",
+        "price": 50.00,
+        "stock": 75,
+        "category": "Women",
+        "type": "Top Wear",
+        "subType": "Dress",
+        "image": "/uploads/products/womens-dress.jpg",
+        "sizes": [
+            "XS",
+            "S",
+            "M"
+        ]
+    },
+    {
+        "name": "Women's Shorts",
+        "description": "Summer shorts for women.",
+        "price": 30.00,
+        "stock": 60,
+        "category": "Women",
+        "type": "Bottom Wear",
+        "subType": "Shorts",
+        "image": "/uploads/products/womens-shorts.jpg",
+        "sizes": [
+            "XS",
+            "S",
+            "M"
+        ]
+    },
+    {
+        "name": "Men's Hoodie",
+        "description": "A comfortable hoodie for men.",
+        "price": 45.00,
+        "stock": 80,
+        "category": "Men",
+        "type": "Top Wear",
+        "subType": "Hoodie",
+        "image": "/uploads/products/mens-hoodie.jpg",
+        "sizes": [
+            "XS",
+            "S",
+            "M"
+        ]
+    },
+    {
+        "name": "Men's Jacket",
+        "description": "A stylish jacket for men.",
+        "price": 80.00,
+        "stock": 40,
+        "category": "Men",
+        "type": "Top Wear",
+        "subType": "Jacket",
+        "image": "/uploads/products/mens-jacket.jpg",
+        "sizes": [
+            "XS",
+            "S",
+            "M"
+        ]
+    },
+    {
+        "name": "Women's Skirt",
+        "description": "A trendy skirt for women.",
+        "price": 35.00,
+        "stock": 55,
+        "category": "Women",
+        "type": "Bottom Wear",
+        "subType": "Skirt",
+        "image": "/uploads/products/womens-skirt.jpg",
+        "sizes": [
+            "XS",
+            "S",
+            "M"
+        ]
+    },
+    {
+        "name": "Women's Blouse",
+        "description": "A stylish blouse for women.",
+        "price": 25.00,
+        "stock": 70,
+        "category": "Women",
+        "type": "Top Wear",
+        "subType": "Blouse",
+        "image": "/uploads/products/womens-blouse.jpg",
+        "sizes": [
+            "XS",
+            "S",
+            "M"
+        ]
+    }
+]

@@ -21,14 +21,18 @@ const Product = sequelize.define('Product', {
         validate: {
             min: 0.01, // Ensure price is greater than 0
         },
+        image: {
+            type: DataTypes.STRING, // Store the URL of the image
+            allowNull: true,
+        },
     },
-    stock: {
+    /*/stock: {
         type: DataTypes.INTEGER,
         allowNull: false,
         validate: {
             min: 0, // Ensure stock is not negative
-        },
-    },
+        },/*/
+    // },
     category: {
         type: DataTypes.ENUM('Men', 'Women'),
         allowNull: false,
@@ -49,6 +53,10 @@ const Product = sequelize.define('Product', {
         type: DataTypes.DATE,
         defaultValue: DataTypes.NOW,
         onUpdate: DataTypes.NOW,
+    },
+    image: {
+        type: DataTypes.STRING, // Store the URL of the image
+        allowNull: true,
     },
 }, {
     tableName: 'products',

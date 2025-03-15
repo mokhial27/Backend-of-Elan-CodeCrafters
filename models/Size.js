@@ -32,3 +32,4 @@ const Size = sequelize.define('Size', {
 });
 
 module.exports = Size;
+

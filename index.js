@@ -1,10 +1,16 @@
-// index.js
 const express = require('express');
 const authMiddleware = require('./middlewares/authMiddleware');
 const authRoutes = require('./Routes/authRoutes');
 require('dotenv').config({ path: './config/config.env' });
+const testDatabaseConnection = require('./Util/testDatabase'); // Import test connection function
+const seedDatabase = require('./seeders/seedDatabase'); // Import the renamed seeding function
+const productRoutes = require('./Routes/productRoutes'); // Import product routes
+
 
 const app = express();
+
+// Test database connection
+testDatabaseConnection();
 
 // Use Auth0 middleware
 app.use(authMiddleware);
@@ -12,6 +18,10 @@ app.use(authMiddleware);
 // Use auth routes
 app.use('/', authRoutes);
 app.use(express.static('public'));
+
+// Use product routes
+app.use(productRoutes);
+
 
 // Auth status endpoint
 app.get('/auth-status', (req, res) => {
@@ -27,7 +37,17 @@ app.get('/', (req, res) => {
 });
 
 // Start the server
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 3000
 app.listen(PORT, () => {
   console.log(`Server running on http://localhost:${PORT}`);
 });
+
+// Seed the database when the server starts
+(async () => {
+  try {
+    await seedDatabase(); // Call the renamed seeding function
+    console.log("✅ Database seeding completed!");
+  } catch (error) {
+    console.error("❌ Error seeding database:", error);
+  }
+})();

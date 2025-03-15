@@ -65,3 +65,6 @@ const UserAddress = sequelize.define('UserAddress', {
 });
 
 module.exports = UserAddress;
+
+
+

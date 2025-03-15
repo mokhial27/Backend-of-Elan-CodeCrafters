@@ -39,13 +39,7 @@ const Cart = sequelize.define('Cart', {
             min: 1, // Ensure quantity is at least 1
         },
     },
-    price: {
-        type: DataTypes.DECIMAL(10, 2),
-        allowNull: false,
-        validate: {
-            min: 0.01, // Ensure price is greater than 0
-        },
-    },
+
     created_at: {
         type: DataTypes.DATE,
         defaultValue: DataTypes.NOW,
