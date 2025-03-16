@@ -52,9 +52,9 @@ const getProductsByCategory = async (req, res) => {
             include: [
                 {
                     model: Size,
-                    as: 'sizes', 
-                    attributes: ['size'], 
-                    through: { attributes: [] },
+                    as: 'sizes', // Use the alias 'sizes' defined in the association
+                    attributes: ['size'], // Include only the 'size' attribute
+                    through: { attributes: [] }, // Exclude the join table (ProductSize) attributes
                 },
             ],
         });
@@ -71,8 +71,51 @@ const getProductsByCategory = async (req, res) => {
         res.status(500).json({ success: false, message: 'Internal server error' });
     }
 };
+// Fetch product with id
+const getProduct = async (req, res) => {
+    try {
+        const { id } = req.params;
 
+        // Fetch product details
+        const product = await Product.findByPk(id, {
+            include: [
+                {
+                    model: Size,
+                    as: 'sizes',
+                    attributes: ['size'],
+                    through: { attributes: [] }, // Exclude join table attributes
+                },
+            ],
+        });
+
+        // If product not found, return 404
+        if (!product) {
+            return res.status(404).json({
+                success: false,
+                message: 'Product not found!',
+            });
+        }
+
+        // If product found, return 200 with product data
+        res.status(200).json({
+            success: true,
+            data: product,
+            message: `Product found!`,
+        });
+
+    } catch (error) {
+        // Handle errors
+        console.error('Error fetching product:', error);
+        res.status(500).json({
+            success: false,
+            message: 'An error occurred while fetching the product.',
+        });
+    }
+};
 // Export controllers
 module.exports = {
     getProductsByCategory,
+    getProduct,
 };
+
+
