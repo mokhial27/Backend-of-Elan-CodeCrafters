@@ -14,18 +14,17 @@ const logout = (req, res) => {
 };
 const getProfile = async (req, res) => {
     try {
-        console.log(' User info from Auth0:', req.oidc.user);
+        console.log('User info from Auth0:', req.oidc.user);
 
         if (!req.oidc.user) {
-            console.error(' No user found in req.oidc');
+            console.error('No user found in req.oidc');
             return res.status(401).json({ error: 'User not authenticated' });
         }
 
         const { sub, email, name } = req.oidc.user;
-        console.log('🔹 Extracted user data:', { sub, email, name });
 
         // Save or update user in MySQL
-        const [user, created] = await User.findOrCreate({
+        await User.findOrCreate({
             where: { email },
             defaults: {
                 auth0_id: sub,
@@ -35,9 +34,8 @@ const getProfile = async (req, res) => {
             },
         });
 
-        console.log(' User saved/updated:', user.toJSON());
-
-        res.json({ message: created ? 'User saved' : 'User exists', user });
+        // Send a simple success response without returning user data
+        res.status(200).json({ message: 'User saved or already exists' });
     } catch (err) {
         console.error('❌ Error in getProfile:', err);
         res.status(500).json({ error: 'Database error', details: err.message });

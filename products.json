@@ -15,21 +15,6 @@
         ]
     },
     {
-        "name": "Men's Jeans",
-        "description": "Stylish jeans for men.",
-        "price": 40.00,
-        "stock": 50,
-        "category": "Men",
-        "type": "Bottom Wear",
-        "subType": "Jeans",
-        "image": "/uploads/products/mens-jeans.jpg",
-        "sizes": [
-            "XS",
-            "S",
-            "M"
-        ]
-    },
-    {
         "name": "Women's Dress",
         "description": "A stylish dress for women.",
         "price": 50.00,
@@ -45,44 +30,14 @@
         ]
     },
     {
-        "name": "Women's Shorts",
-        "description": "Summer shorts for women.",
-        "price": 30.00,
-        "stock": 60,
-        "category": "Women",
+        "name": "Men's Jeans",
+        "description": "Stylish jeans for men.",
+        "price": 40.00,
+        "stock": 50,
+        "category": "Men",
         "type": "Bottom Wear",
-        "subType": "Shorts",
-        "image": "/uploads/products/womens-shorts.jpg",
-        "sizes": [
-            "XS",
-            "S",
-            "M"
-        ]
-    },
-    {
-        "name": "Men's Hoodie",
-        "description": "A comfortable hoodie for men.",
-        "price": 45.00,
-        "stock": 80,
-        "category": "Men",
-        "type": "Top Wear",
-        "subType": "Hoodie",
-        "image": "/uploads/products/mens-hoodie.jpg",
-        "sizes": [
-            "XS",
-            "S",
-            "M"
-        ]
-    },
-    {
-        "name": "Men's Jacket",
-        "description": "A stylish jacket for men.",
-        "price": 80.00,
-        "stock": 40,
-        "category": "Men",
-        "type": "Top Wear",
-        "subType": "Jacket",
-        "image": "/uploads/products/mens-jacket.jpg",
+        "subType": "Jeans",
+        "image": "/uploads/products/mens-jeans.jpg",
         "sizes": [
             "XS",
             "S",
@@ -98,21 +53,6 @@
         "type": "Bottom Wear",
         "subType": "Skirt",
         "image": "/uploads/products/womens-skirt.jpg",
-        "sizes": [
-            "XS",
-            "S",
-            "M"
-        ]
-    },
-    {
-        "name": "Women's Blouse",
-        "description": "A stylish blouse for women.",
-        "price": 25.00,
-        "stock": 70,
-        "category": "Women",
-        "type": "Top Wear",
-        "subType": "Blouse",
-        "image": "/uploads/products/womens-blouse.jpg",
         "sizes": [
             "XS",
             "S",

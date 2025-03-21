@@ -7,20 +7,18 @@ const User = sequelize.define('User', {
         primaryKey: true,
         autoIncrement: true,
     },
+    auth0_id: {
+        type: DataTypes.STRING,
+        allowNull: true, // Allow null if the column is optional
+    },
     name: {
         type: DataTypes.STRING,
         allowNull: false,
-        validate: {
-            notEmpty: true, // Ensure name is not empty
-        },
     },
     email: {
         type: DataTypes.STRING,
         allowNull: false,
         unique: true,
-        validate: {
-            isEmail: true, // Ensure email is valid
-        },
     },
     role: {
         type: DataTypes.ENUM('user', 'admin'),
@@ -38,18 +36,6 @@ const User = sequelize.define('User', {
 }, {
     tableName: 'users',
     timestamps: false,
-    paranoid: true, // Enable soft deletes
-    indexes: [
-        {
-            unique: true,
-            fields: ['email'], // Ensure email is unique
-        },
-    ],
 });
 
 module.exports = User;
-
-
-
-
-
