@@ -7,6 +7,8 @@ const testDatabaseConnection = require('./Util/testDatabase');
 const seedDatabase = require('./seeders/seedDatabase');
 const productRoutes = require('./Routes/productRoutes');
 const userRoutes = require("./Routes/User");
+const cors = require('cors');
+
 
 const app = express();
 
@@ -17,6 +19,8 @@ testDatabaseConnection();
 
 // Middleware to parse JSON
 app.use(express.json());
+app.use(cors());
+
 
 // Serve static files - this will serve your HTML and other static assets
 app.use(express.static(path.join(__dirname, 'public')));
@@ -32,6 +36,7 @@ app.use(productRoutes);
 
 // Use user routes
 app.use(userRoutes);
+
 
 // Auth status endpoint
 app.get('/auth-status', (req, res) => {
@@ -61,3 +66,4 @@ app.listen(PORT, () => {
     console.error("❌ Error seeding database:", error);
   }
 })();/*/
+
