@@ -1,4 +1,8 @@
 const { Product, Size } = require('../models'); // Import models
+const { AppError } = require('../Util/AppError');
+const { SUCCESS, FAIL, ERROR } = require('../Util/HttpStatus.');
+const asyncWrapper = require('../middlewares/asyncwrapper');
+
 
 // Controller for homepage data
 /*/const getHomepageData = async (req, res) => {
@@ -28,75 +32,63 @@ const { Product, Size } = require('../models'); // Import models
         res.status(500).json({ success: false, message: 'Internal server error' });
     }
 };/*/
-const getProductsByCategory = async (req, res) => {
-    try {
-        const { category } = req.params;
-        const { type, subType } = req.query;
 
-        const whereClause = { category };
-        if (type) whereClause.type = type;
-        if (subType) whereClause.subType = subType;
 
-        const products = await Product.findAll({
-            where: whereClause,
-            include: [
-                {
-                    model: Size,
-                    as: 'sizes', // Ensure this matches the alias used in your association
-                    attributes: ['size'], // Include only the 'size' attribute
-                    through: { attributes: [] }, // Exclude the join table (ProductSize) attributes
-                },
-            ],
-        });
+const getProductsByCategory = asyncWrapper(async (req, res) => {
+    const { category } = req.params;
+    const { type, subType } = req.query;
 
-        res.status(200).json({
-            success: true,
-            data: products,
-        });
-    } catch (error) {
-        console.error('Error fetching products by category:', error); // Log the error
-        res.status(500).json({ success: false, message: 'Internal server error' });
+
+    if (!category) {
+        throw new AppError('Category is required', 400, FAIL);
     }
-};
 
-const getProduct = async (req, res) => {
-    try {
-        const { id } = req.params;
+    const whereClause = { category };
+    if (type) whereClause.type = type;
+    if (subType) whereClause.subType = subType;
 
-        const product = await Product.findByPk(id, {
-            include: [
-                {
-                    model: Size,
-                    as: 'sizes',
-                    attributes: ['size'],
-                    through: { attributes: [] },
-                },
-            ],
-        });
+    // Fetch products
+    const products = await Product.findAll({
+        where: whereClause,
+        include: [
+            {
+                model: Size,
+                as: 'sizes',
+                attributes: ['size'],
+                through: { attributes: [] },
+            },
+        ],
+    });
+
+    // Send response
+    res.status(200).json({
+        status: SUCCESS,
+        data: products,
+        message: 'Products fetched successfully',
+    });
+});
 
 
-        if (!product) {
-            return res.status(404).json({
-                success: false,
-                message: 'Product not found!',
-            });
-        }
+const getProduct = asyncWrapper(async (req, res, next) => {
+    const { id } = req.params;
 
-        res.status(200).json({
-            success: true,
-            data: product,
-            message: `Product found!`,
-        });
+    const product = await Product.findByPk(id, {
+        include: [
+            {
+                model: Size,
+                as: 'sizes',
+                attributes: ['size'],
+                through: { attributes: [] },
+            },
+        ],
+    });
 
-    } catch (error) {
-        console.error('Error fetching product:', error);
-        res.status(500).json({
-            success: false,
-            message: 'An error occurred while fetching the product.',
-        });
-    }
-};
+    if (!product) throw new AppError('Product not found!', 404, FAIL);
 
+    res.status(200).json({
+        status: SUCCESS, data: product, message: 'Product found!',
+    });
+});
 
 module.exports = {
     getProductsByCategory,

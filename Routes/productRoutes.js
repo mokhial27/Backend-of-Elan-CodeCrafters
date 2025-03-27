@@ -1,12 +1,11 @@
 const express = require('express');
 const router = express.Router();
-const { getProductsByCategory } = require('../Controllers/productController.js');
-const { getProduct } = require('../Controllers/productController.js')
+const { getProductsByCategory, getProduct } = require('../Controllers/productController');
 
+router.route('/api/categories/:category')
+    .get(getProductsByCategory); // Category-specific route
 
-// Define routes
-//router.get('/api/home', getHomepageData); // Homepage route
-router.get('/api/categories/:category', getProductsByCategory); // Category-specific route
-router.get("/api/products/:id", getProduct);
+router.route('/api/products/:id')
+    .get(getProduct);
 
 module.exports = router;

@@ -179,3 +179,224 @@
 </body>
 
 </html>
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Address Creation</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 20px;
+      line-height: 1.6;
+    }
+
+    h1 {
+      color: #2c3e50;
+      border-bottom: 2px solid #3498db;
+      padding-bottom: 10px;
+    }
+
+    .form-container {
+      max-width: 500px;
+      margin: 0 auto;
+      padding: 20px;
+      border: 1px solid #ddd;
+      border-radius: 5px;
+      background-color: #f9f9f9;
+    }
+
+    .form-group {
+      margin-bottom: 15px;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 5px;
+      font-weight: bold;
+    }
+
+    input,
+    select {
+      width: 100%;
+      padding: 8px;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+      box-sizing: border-box;
+    }
+
+    button {
+      background-color: #4CAF50;
+      color: white;
+      border: none;
+      padding: 10px 15px;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 16px;
+    }
+
+    button:hover {
+      background-color: #45a049;
+    }
+
+    .message {
+      margin-top: 20px;
+      padding: 10px;
+      border-radius: 4px;
+    }
+
+    .success {
+      background-color: #d4edda;
+      color: #155724;
+      border: 1px solid #c3e6cb;
+    }
+
+    .error {
+      background-color: #f8d7da;
+      color: #721c24;
+      border: 1px solid #f5c6cb;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="form-container">
+    <h1>Create New Address</h1>
+    <form id="addressForm">
+      <div class="form-group">
+        <label for="governorate">Governorate:</label>
+        <input type="text" id="governorate" name="governorate" required>
+      </div>
+
+      <div class="form-group">
+        <label for="district">District:</label>
+        <input type="text" id="district" name="district" required>
+      </div>
+
+      <div class="form-group">
+        <label for="street">Street:</label>
+        <input type="text" id="street" name="street" required>
+      </div>
+
+      <div class="form-group">
+        <label for="building">Building:</label>
+        <input type="text" id="building" name="building" required>
+      </div>
+
+      <div class="form-group">
+        <label for="postal_code">Postal Code:</label>
+        <input type="text" id="postal_code" name="postal_code" required>
+      </div>
+
+      <div class="form-group">
+        <label for="country">Country:</label>
+        <input type="text" id="country" name="country" value="Egypt" readonly required>
+      </div>
+
+      <div class="form-group">
+        <label for="phone_number">Phone Number:</label>
+        <input type="tel" id="phone_number" name="phone_number" required>
+      </div>
+
+      <button type="submit">Save Address</button>
+    </form>
+
+    <div id="message" class="message"></div>
+  </div>
+
+  <script>
+    document.getElementById('addressForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+
+      const messageDiv = document.getElementById('message');
+      messageDiv.innerHTML = '';
+      messageDiv.className = 'message';
+
+      try {
+        // 1. Verify authentication first
+        const authCheck = await fetch('/auth-status', {
+          credentials: 'include'
+        });
+
+        // Handle auth response only once
+        const authContentType = authCheck.headers.get('content-type');
+        let authData;
+
+        if (authContentType && authContentType.includes('application/json')) {
+          authData = await authCheck.json();
+        } else {
+          const authText = await authCheck.text();
+          throw new Error(`Auth check failed: ${authText.substring(0, 100)}`);
+        }
+
+        if (!authCheck.ok || !authData.isAuthenticated) {
+          window.location.href = '/login';
+          return;
+        }
+
+        // 2. Prepare address data
+        const addressData = {
+          governorate: document.getElementById('governorate').value,
+          district: document.getElementById('district').value,
+          street: document.getElementById('street').value,
+          building: document.getElementById('building').value,
+          postal_code: document.getElementById('postal_code').value,
+          country: document.getElementById('country').value,
+          phone_number: document.getElementById('phone_number').value
+        };
+
+        // 3. Send to endpoint
+        const response = await fetch('/addresses', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Accept': 'application/json'
+          },
+          credentials: 'include',
+          body: JSON.stringify(addressData)
+        });
+
+        // 4. Handle response only once
+        const contentType = response.headers.get('content-type');
+        let result;
+
+        if (contentType && contentType.includes('application/json')) {
+          result = await response.json();
+        } else {
+          const textResponse = await response.text();
+          throw new Error(`Server response: ${textResponse.substring(0, 100)}`);
+        }
+
+        if (!response.ok) {
+          throw new Error(result.message || `Server error: ${response.status}`);
+        }
+
+        // Success case
+        messageDiv.className = 'success';
+        messageDiv.innerHTML = `
+          <h3>Success!</h3>
+          <p>Address created successfully!</p>
+          <pre>${JSON.stringify(result, null, 2)}</pre>
+        `;
+        document.getElementById('addressForm').reset();
+
+      } catch (error) {
+        console.error('Error:', error);
+        messageDiv.className = 'error';
+        messageDiv.innerHTML = `
+          <h3>Error</h3>
+          <p>${error.message}</p>
+        `;
+
+        if (error.message.includes('login') || error.message.includes('Auth')) {
+          messageDiv.innerHTML += '<p><a href="/login" style="color: #721c24;">Click here to login</a></p>';
+        }
+      }
+    });
+  </script>
+</body>
+
+</html>

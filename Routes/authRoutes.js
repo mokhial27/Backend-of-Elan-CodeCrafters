@@ -12,4 +12,6 @@ router.get('/logout', authController.logout);
 // Profile route (requires authentication)
 router.get('/profile', requiresAuth(), authController.getProfile); // Use requiresAuth
 
+
+
 module.exports = router;
