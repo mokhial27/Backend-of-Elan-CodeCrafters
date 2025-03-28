@@ -6,12 +6,11 @@ const { requiresAuth } = require("express-openid-connect");
 
 // Define routes
 router.get("/api/users/me", requiresAuth(), getUserbyId);
-
-
-
-
 // Create a new address
-//router.post('/addresses', createAddress);
-router.put('/profile', requiresAuth(), updateProfile); // تحديث البيانات
-
+router.post('/addresses', createAddress);
+//update user email and name
+router.put('/profile', requiresAuth(), updateProfile);
 module.exports = router;
+
+
+

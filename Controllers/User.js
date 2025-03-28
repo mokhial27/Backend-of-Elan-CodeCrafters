@@ -85,6 +85,7 @@ const updateProfile = async (req, res) => {
         return res.status(500).json({ error: 'Update failed', details: err.message });
     }
 };
+
 const createAddress = async (req, res) => {
     try {
         const auth0UserId = req.oidc.user.sub;
@@ -109,6 +110,15 @@ const createAddress = async (req, res) => {
         return res.status(500).json({ message: 'An error occurred while creating the address.' });
     }
 };
+
+
+const UpdateAdress = async((req, res => {
+    try {
+
+    } catch (error) {
+
+    }
+}))
 
 module.exports = {
     getUserbyId,

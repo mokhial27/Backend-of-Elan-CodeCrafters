@@ -2,6 +2,10 @@ const { Product, Size } = require('../models'); // Import models
 const { AppError } = require('../Util/AppError');
 const { SUCCESS, FAIL, ERROR } = require('../Util/HttpStatus.');
 const asyncWrapper = require('../middlewares/asyncwrapper');
+const { validationResult } = require('express-validator');
+const { Op } = require('sequelize');
+
+
 
 
 // Controller for homepage data
@@ -35,6 +39,12 @@ const asyncWrapper = require('../middlewares/asyncwrapper');
 
 
 const getProductsByCategory = asyncWrapper(async (req, res) => {
+
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+        return res.status(400).json({ errors: errors.array() });
+    }
+
     const { category } = req.params;
     const { type, subType } = req.query;
 
@@ -47,7 +57,7 @@ const getProductsByCategory = asyncWrapper(async (req, res) => {
     if (type) whereClause.type = type;
     if (subType) whereClause.subType = subType;
 
-    // Fetch products
+
     const products = await Product.findAll({
         where: whereClause,
         include: [
@@ -60,7 +70,6 @@ const getProductsByCategory = asyncWrapper(async (req, res) => {
         ],
     });
 
-    // Send response
     res.status(200).json({
         status: SUCCESS,
         data: products,
@@ -70,6 +79,10 @@ const getProductsByCategory = asyncWrapper(async (req, res) => {
 
 
 const getProduct = asyncWrapper(async (req, res, next) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+        return res.status(400).json({ errors: errors.array() });
+    }
     const { id } = req.params;
 
     const product = await Product.findByPk(id, {
